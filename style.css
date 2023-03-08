@@ -9,15 +9,14 @@
   --dark-blue: hsl(218, 23%, 16%);
 }
 
-
-
 /*
-CSS RESET
+MOBILE FRIENDLY VERSION FOR 375px;
 */
 
 * {
   box-sizing: border-box;
   margin: 0;
+  padding: 0;
 }
 
 html, body {
@@ -26,20 +25,77 @@ html, body {
 }
 
 body {
+  font-family: 'Manrope', sans-serif;
   line-height: 1.5;
   background-color: hsl(218, 23%, 16%);
+  text-align: center;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
-img {
-  display: block;
-  max-width: 100%;
+.mb-1 {
+  margin-bottom: 1rem;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
-  overflow-wrap: break-word;
+.main {
+  color: var(--light-cyan);
+  background-color: var(--dark-grayish-blue);
+  padding: 1.25rem;
+  border-radius: 0.625rem;
 }
 
-/*
-MOBILE FRIENDLY VERSION FOR 375px;
-*/
+.main__title {
+  color: var(--neon-green);
+  letter-spacing: 0.2rem;
+  font-size: small; 
+}
+
+.main__button {
+  background-color: var(--neon-green);
+  padding: 1rem;
+  border: none;
+  border-radius: 50%;
+  transition: background-color 0.3s ease-in-out;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+.main__button:hover {
+  background-color:hsl(150, 39%, 35%) ;
+  cursor: pointer;
+}
+
+
+
+
+
+
+.attribution { 
+  font-size: 11px; 
+  text-align: center; 
+  margin-top: 2rem;
+  color: var(--light-cyan);
+}
+
+
+.attribution a { 
+  color: hsl(228, 45%, 44%); 
+  transition: color 0.3s ease-in-out;
+}
+
+.attribution a:hover {
+  color: hsl(228, 69%, 70%); 
+}
+
+
+
+
+
+
 

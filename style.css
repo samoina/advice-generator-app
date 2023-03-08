@@ -1,18 +1,14 @@
 /*Import fonts*/
   @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap');
 
-  /* ## Colors
+:root {
+  --light-cyan: hsl(193, 38%, 86%);
+  --neon-green: hsl(150, 100%, 66%);
+  --grayish-blue: hsl(217, 19%, 38%);
+  --dark-grayish-blue: hsl(217, 19%, 24%);
+  --dark-blue: hsl(218, 23%, 16%);
+}
 
-### Primary
-
-- Light Cyan: hsl(193, 38%, 86%)
-- Neon Green: hsl(150, 100%, 66%)
-
-### Neutral
-
-- Grayish Blue: hsl(217, 19%, 38%)
-- Dark Grayish Blue: hsl(217, 19%, 24%) - this is for the quote itself
-- Dark Blue: hsl(218, 23%, 16%) */
 
 
 /*
@@ -46,12 +42,4 @@ p, h1, h2, h3, h4, h5, h6 {
 /*
 MOBILE FRIENDLY VERSION FOR 375px;
 */
-
-.attribution { 
-  font-size: 11px; text-align: center; 
-}
-
-.attribution a { 
-  color: hsl(228, 45%, 44%);
-}
 

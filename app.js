@@ -1,33 +1,41 @@
-//Declare constants
+/* declare constants*/
 const mainButton = document.querySelector('.main__button'),
   adviceNum = document.querySelector('.adviceNum'),
   mainPara = document.querySelector('.main__para'),
-  url = 'https://api.adviceslip.com/advice';
+  url = 'https://api.adviceslip.com/adviceS';
 
 
 //add Event Listener to the button on click
 mainButton.addEventListener('click', loadAdvice);
 
-//ASYNC AWAIT
-async function loadAdvice() {
-  let res = await fetch(url);
-  let data = await res.json();
+/*ASYNC AWAIT*/
 
-  mainPara.textContent = `"${data.slip.advice}"`;
-  adviceNum.textContent = `#${data.slip.id}`;
-}
+// async function loadAdvice() {
+//   let res = await fetch(url);
+//   let data = await res.json();
 
-//FETCH()
-// function loadAdvice() {
-//   fetch(url)
-//     .then(res => res.json())
-//     .then(data => {
-//       mainPara.textContent = `"${data.slip.advice}"`;
-//       adviceNum.textContent = `#${data.slip.id}`;
-//     })
+//   mainPara.textContent = `"${data.slip.advice}"`;
+//   adviceNum.textContent = `#${data.slip.id}`;
 // }
 
-//XHR
+/* FETCH()*/
+function loadAdvice() {
+  fetch(url)
+    .then(res => {
+      if(res.status >=200 && res.status <=299){
+        return  res.json();
+      } else {
+        throw Error(`${res.status} - Page not found`)
+      }
+    })
+    .then(data => {
+      mainPara.textContent = `"${data.slip.advice}"`;
+      adviceNum.textContent = `#${data.slip.id}`;
+    })
+    .catch(err => mainPara.textContent = `"${err}"`)
+}
+
+/*XHR */
 // function loadAdvice(){
 //   const xhr = new XMLHttpRequest();
 
@@ -48,9 +56,9 @@ async function loadAdvice() {
 // }
 
 //PROMISES
-function loadAdvice(){
-  let promise = new Promise(function(resolve, reject){
-    let xhr = new XMLHttpRequest();
+// function loadAdvice(){
+//   let promise = new Promise(function(resolve, reject){
+//     let xhr = new XMLHttpRequest();
     /*I came across the 'loadend' when used as an event on the xhr object, but discovered that it works the same way as the onload function
     */
     // xhr.addEventListener('loadend', function(){
@@ -62,27 +70,27 @@ function loadAdvice(){
     //   }
     // })
     
-    xhr.onload = function(){
-      if(this.status === 200){
-        const adviceObj = JSON.parse(this.responseText)
-        resolve([adviceObj.slip.id, adviceObj.slip.advice])
-      } else {
-        reject(new Error(`${this.status} - Page Not Found`))
-      }
-    }
+  //   xhr.onload = function(){
+  //     if(this.status === 200){
+  //       const adviceObj = JSON.parse(this.responseText)
+  //       resolve([adviceObj.slip.id, adviceObj.slip.advice])
+  //     } else {
+  //       reject(new Error(`${this.status} - Page Not Found`))
+  //     }
+  //   }
 
-    xhr.open('GET', url, true);
-    xhr.send();
-  })
+  //   xhr.open('GET', url, true);
+  //   xhr.send();
+  // })
 
   /*Consume the promise*/
-  promise
-  .then(responseArray => {
-    adviceNum.textContent = `#${responseArray[0]}`;
-    mainPara.textContent = `"${responseArray[1]}"`;    
-  })
-  .catch(err => mainPara.textContent = `"${err}"`);
-}
+//   promise
+//   .then(responseArray => {
+//     adviceNum.textContent = `#${responseArray[0]}`;
+//     mainPara.textContent = `"${responseArray[1]}"`;    
+//   })
+//   .catch(err => mainPara.textContent = `"${err}"`);
+// }
 
 
 

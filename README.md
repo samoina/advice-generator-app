@@ -6,19 +6,15 @@ This is a solution to the [Advice generator app challenge on Frontend Mentor](ht
 
 - [Overview](#overview)
   - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
   - [Links](#links)
-- [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
 - [Acknowledgments](#acknowledgments)
 
-**Note: Delete this note and update the table of contents based on what sections you keep.**
-
 ## Overview
+We took up this challenge as one of the tasks to practice HTML & CSS within the [Space Ya Tech - SYT](https://spaceyatech.com/) mentorship sessions. SYT is the fastest growing Africa Open-Source Community Looking To Change The Way Young Africans Get Started In Technology. One way SYT does this is through its mentorship, and I am excited to be a part of the current cohort (as of February 2023).
 
 ### The challenge
 
@@ -28,40 +24,22 @@ Users should be able to:
 - See hover states for all interactive elements on the page
 - Generate a new piece of advice by clicking the dice icon
 
-### Screenshot
-
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it. 
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
-
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
-
-## My process
+- Solution URL: [Github Repo Link](https://github.com/samoina/advice-generator-app)
+- Live Site URL: [Netlify Link](https://samoina-advice-generator.netlify.app/)
 
 ### Built with
 
 - Semantic HTML5 markup
 - CSS custom properties
+- Vanilla Javascript
 - Flexbox
-- CSS Grid
+- BEM Naming Convention
 - Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
-- [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
 
 ### What I learned
-
+#### Centering on CSS
 I had some trouble figuring out how to center the main section of my app. Found an incredible resource on [CSS Tricks](https://css-tricks.com/centering-css-complete-guide/) that showed how to center an element of unknown width and height. It uses the transform property and a negative translate of 50% in both directions. This works because it is based on the element's width and height to be centered as below:
 
 ```css
@@ -74,31 +52,73 @@ I had some trouble figuring out how to center the main section of my app. Found 
 }
 ```
 
+#### Asynchronous Javascript
 
-### Continued development
+My approach to this task was to practise what I have been learning in asyncgronous Javascript. So I used the XHR Object, JS Promises, Fetch() and async await.
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+The challenge was to incorporate a callback function when using the XHR Object. I need to find out if adding the Boolean 'true' to show that it is an asynchronous function is sufficient without needing a callback function. (This was included in the [Advice API](https://api.adviceslip.com/) under the Parameters for Random Advice)
 
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
+Secondly, I was initially confused over how many arguments the Resolve function takes when using Javascript Promises. A quick look at the MDN Documentation reminded me that this function only takes one argument. For this challenge I needed two values, so I put them in an array, which I would then use when consuming the promise using the .then() method handler. 
+
+```javascript
+...
+ xhr.onload = function(){
+      if(this.status === 200){
+        const adviceObj = JSON.parse(this.responseText)
+        resolve([adviceObj.slip.id, adviceObj.slip.advice])
+      } else {
+        reject(new Error(`${this.status} - Oops! something went wrong`))
+      }
+    }
+...
+```
+
+Thirdly, I had handled errors with the XHR object and promises, but not with fetch() and Async Await. This was my reminder that fetch() only rejects on network failure - and not on HTTP error statuses so I needed to capture this as below. I used if..else... for this error handling. 
+
+```js
+...
+  if(res.status>= 200 && res.status<=299){
+    let data = await res.json();
+
+    mainPara.textContent = `"${data.slip.advice}"`;
+    adviceNum.textContent = `#${data.slip.id}`;
+  } else {
+    mainPara.textContent = `"Error ${res.status} - Oops! something went wrong"`;
+  }
+...
+```
+
+Lastly, I came across the 'loadend' when used as an event on the xhr object, but discovered that it works the same way as the onload function.
+
+```javascript
+  xhr.addEventListener('loadend', function(){
+      if(this.status === 200){
+        const adviceObj = JSON.parse(this.responseText)
+        resolve([adviceObj.slip.id, adviceObj.slip.advice])
+      } else {
+        reject(new Error(`Error ${this.status}`))
+      }
+    })
+```
+
+#### Fetch advice onload instead of hardcoding it.
+I had hardcoded the initial joke that shows on the page, and only when the user clicked would it change. During the SYT mentorship session, I learned that to fetch new advice as soon as the page loads, I would need to call the function immeadiately the document loads as below. 
+
+```javascript
+document.onload = loadAdvice();
+```
 
 ### Useful resources
 
 - [CSS Tricks](https://css-tricks.com/centering-css-complete-guide/) - This is an excellent resource if you need a better understanding of how to center elements in different scenarios.
 
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
-
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
+- Website - [Samoina Lives](https://samoinalives.wordpress.com/)
+- Frontend Mentor - [@samoina](https://www.frontendmentor.io/profile/samoina)
+- Twitter - [@samoina](https://www.twitter.com/samoina)
 
 ## Acknowledgments
+Special thanks to the Space Ya Tech mentors for providing some insight and encouragement to getting this task done. 
 
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
 
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**

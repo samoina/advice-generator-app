@@ -9,7 +9,6 @@ const mainButton = document.querySelector('.main__button'),
 mainButton.addEventListener('click', loadAdvice);
 
 /*ASYNC AWAIT*/
-
 async function loadAdvice() {
   let res = await fetch(url);
   if(res.status>= 200 && res.status<=299){
@@ -18,88 +17,78 @@ async function loadAdvice() {
     mainPara.textContent = `"${data.slip.advice}"`;
     adviceNum.textContent = `#${data.slip.id}`;
   } else {
-    mainPara.textContent = `"Error ${res.status} - Page not found"`;
-  }
- 
+    mainPara.textContent = `"Error ${res.status} - Oops! something went wrong"`;
+  } 
 }
 
 /* FETCH()*/
-// function loadAdvice() {
-//   fetch(url)
-//     .then(res => {
-//       if(res.status >=200 && res.status <=299){
-//         return  res.json();
-//       } else {
-//         throw Error(`${res.status} - Page not found`)
-//       }
-//     })
-//     .then(data => {
-//       mainPara.textContent = `"${data.slip.advice}"`;
-//       adviceNum.textContent = `#${data.slip.id}`;
-//     })
-//     .catch(err => mainPara.textContent = `"${err}"`)
-// }
+/*
+function loadAdvice() {
+  fetch(url)
+    .then(res => {
+      if(res.status >=200 && res.status <=299){
+        return  res.json();
+      } else {
+        throw Error(`${res.status} - Oops! something went wrong`)
+      }
+    })
+    .then(data => {
+      mainPara.textContent = `"${data.slip.advice}"`;
+      adviceNum.textContent = `#${data.slip.id}`;
+    })
+    .catch(err => mainPara.textContent = `"${err}"`)
+}
+*/
 
 /*XHR */
-// function loadAdvice(){
-//   const xhr = new XMLHttpRequest();
+/*
+function loadAdvice(){
+  const xhr = new XMLHttpRequest();
 
-//   xhr.open('GET', url, true);
-//   xhr.send();
-//   xhr.onload = function(){
-//     if(this.status === 200) {
-//       let adviceObj = JSON.parse(this.responseText);
-//       console.log(adviceObj.slip.advice);
-//       console.log(adviceObj.slip.id);
-//       mainPara.textContent = `"${adviceObj.slip.advice}"`;
-//       adviceNum.textContent = `#${adviceObj.slip.id}`;
-//     } else {
-//       let error = `Error: ${this.status}`
-//       mainPara.textContent = `"${error}. Page not found"`;
-//     }
-//   }
-// }
+  xhr.open('GET', url, true);
+  xhr.send();
+  xhr.onload = function(){
+    if(this.status === 200) {
+      let adviceObj = JSON.parse(this.responseText);
+      console.log(adviceObj.slip.advice);
+      console.log(adviceObj.slip.id);
+      mainPara.textContent = `"${adviceObj.slip.advice}"`;
+      adviceNum.textContent = `#${adviceObj.slip.id}`;
+    } else {
+      let error = `Error: ${this.status}`
+      mainPara.textContent = `"${error}. Oops! something went wrong"`;
+    }
+  }
+}
+*/
 
-//PROMISES
-// function loadAdvice(){
-//   let promise = new Promise(function(resolve, reject){
-//     let xhr = new XMLHttpRequest();
-    /*I came across the 'loadend' when used as an event on the xhr object, but discovered that it works the same way as the onload function
-    */
-    // xhr.addEventListener('loadend', function(){
-    //   if(this.status === 200){
-    //     const adviceObj = JSON.parse(this.responseText)
-    //     resolve([adviceObj.slip.id, adviceObj.slip.advice])
-    //   } else {
-    //     reject(new Error(`Error ${this.status}`))
-    //   }
-    // })
+/*PROMISES*/
+/*
+function loadAdvice(){
+  let promise = new Promise(function(resolve, reject){
+    let xhr = new XMLHttpRequest();
     
-  //   xhr.onload = function(){
-  //     if(this.status === 200){
-  //       const adviceObj = JSON.parse(this.responseText)
-  //       resolve([adviceObj.slip.id, adviceObj.slip.advice])
-  //     } else {
-  //       reject(new Error(`${this.status} - Page Not Found`))
-  //     }
-  //   }
+    xhr.onload = function(){
+      if(this.status === 200){
+        const adviceObj = JSON.parse(this.responseText)
+        resolve([adviceObj.slip.id, adviceObj.slip.advice])
+      } else {
+        reject(new Error(`${this.status} - Oops! something went wrong`))
+      }
+    }
 
-  //   xhr.open('GET', url, true);
-  //   xhr.send();
-  // })
+    xhr.open('GET', url, true);
+    xhr.send();
+  })
 
-  /*Consume the promise*/
-//   promise
-//   .then(responseArray => {
-//     adviceNum.textContent = `#${responseArray[0]}`;
-//     mainPara.textContent = `"${responseArray[1]}"`;    
-//   })
-//   .catch(err => mainPara.textContent = `"${err}"`);
-// }
-
-
-
-
+  promise
+  .then(responseArray => {
+    adviceNum.textContent = `#${responseArray[0]}`;
+    mainPara.textContent = `"${responseArray[1]}"`;    
+  })
+  .catch(err => mainPara.textContent = `"${err}"`);
+}
+*/
 
 document.onload = loadAdvice();
 

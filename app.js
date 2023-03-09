@@ -2,7 +2,7 @@
 const mainButton = document.querySelector('.main__button'),
   adviceNum = document.querySelector('.adviceNum'),
   mainPara = document.querySelector('.main__para'),
-  url = 'https://api.adviceslip.com/adviceS';
+  url = 'https://api.adviceslip.com/advice';
 
 
 //add Event Listener to the button on click
@@ -10,30 +10,35 @@ mainButton.addEventListener('click', loadAdvice);
 
 /*ASYNC AWAIT*/
 
-// async function loadAdvice() {
-//   let res = await fetch(url);
-//   let data = await res.json();
+async function loadAdvice() {
+  let res = await fetch(url);
+  if(res.status>= 200 && res.status<=299){
+    let data = await res.json();
 
-//   mainPara.textContent = `"${data.slip.advice}"`;
-//   adviceNum.textContent = `#${data.slip.id}`;
-// }
+    mainPara.textContent = `"${data.slip.advice}"`;
+    adviceNum.textContent = `#${data.slip.id}`;
+  } else {
+    mainPara.textContent = `"Error ${res.status} - Page not found"`;
+  }
+ 
+}
 
 /* FETCH()*/
-function loadAdvice() {
-  fetch(url)
-    .then(res => {
-      if(res.status >=200 && res.status <=299){
-        return  res.json();
-      } else {
-        throw Error(`${res.status} - Page not found`)
-      }
-    })
-    .then(data => {
-      mainPara.textContent = `"${data.slip.advice}"`;
-      adviceNum.textContent = `#${data.slip.id}`;
-    })
-    .catch(err => mainPara.textContent = `"${err}"`)
-}
+// function loadAdvice() {
+//   fetch(url)
+//     .then(res => {
+//       if(res.status >=200 && res.status <=299){
+//         return  res.json();
+//       } else {
+//         throw Error(`${res.status} - Page not found`)
+//       }
+//     })
+//     .then(data => {
+//       mainPara.textContent = `"${data.slip.advice}"`;
+//       adviceNum.textContent = `#${data.slip.id}`;
+//     })
+//     .catch(err => mainPara.textContent = `"${err}"`)
+// }
 
 /*XHR */
 // function loadAdvice(){
